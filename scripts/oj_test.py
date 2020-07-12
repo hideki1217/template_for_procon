@@ -1,4 +1,4 @@
-import os,sys
+import os,sys,re
 import subprocess
 from urllib.request import urlopen
 
@@ -70,7 +70,7 @@ def oj_download(tmp_path,contest_id,problem_id):
     return
 
 def oj_test(tmp_path):
-    if sys.argv[1].split('.')[-1]=='cpp':
+    if sys.argv[1].split('.')[-1]=='cc' or sys.argv[1].split('.')[-1]=='cpp':
         cp = subprocess.run(['g++',sys.argv[1],'-o','./a.out'])
         cp = subprocess.run(['oj','t','-c','./a.out','-d',tmp_path,'-i','--print-memory'])
         os.remove('./a.out')
