@@ -7,7 +7,7 @@
 		{
 			"type": "shell",
 			"label": "\\practice make new one c++ file with template",
-			"command": "new_practice_file.sh",
+			"command": "${workspaceFolder}/scripts/new_practice_file.sh",
 			"group": "build",
 			"problemMatcher": [],
 		},

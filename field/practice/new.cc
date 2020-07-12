@@ -1,4 +1,4 @@
-//https://atcoder.jp/contests/abc169/tasks/abc169_a
+//
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -159,10 +159,8 @@ const int N_MAX=100005;
 void Main(){
     int x=0,y=INF10,z=1;
     //入力
-    cin>>x>>y;
     //処理
     //出力
-    cout<<x*y<<endl;
 }
 
 int main(){
