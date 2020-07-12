@@ -1,0 +1,155 @@
+{
+	// Place your ProglamingContest ワークスペース snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"uftree":{
+		"scope": "cpp",
+		"prefix": "@uftree",
+		"body": [
+			"struct uftree{",
+			"\tint cou;",
+			"\tvector<int> parent;",
+			"\tvector<int> rank;",
+			"\tvector<int> _size;",
+			"\tuftree(int n){",
+			"\t\tinit(n);",
+			"\t}",
+			"\tvoid init(const int &n){",
+			"\t\tparent=vector<int>(n);",
+			"\t\trank=vector<int>(n,0);",
+			"\t\t_size=vector<int>(n,1);",
+			"\t\tcou=n;",
+			"\t\trep(i,n){",
+			"\t\t\tparent[i]=i;",
+			"\t\t}",
+			"\t}",
+			"\tint root(const int &i){",
+			"\t\treturn parent[i]==i?i:parent[i]=root(parent[i]);",
+			"\t}",
+			"\tbool same(const int &i,const int &j){",
+			"\t\treturn root(i)==root(j);",
+			"\t}",
+			"\tvoid merge(int i,int j){",
+			"\t\ti=root(i);j=root(j);",
+			"\t\tif(i==j)return;",
+			"\t\tcou--;",
+			"\t\tif(rank[i]>=rank[j]){",
+			"\t\t\tparent[j]=i;",
+			"\t\t\t_size[i]+=_size[j];",
+			"\t\t}else{",
+			"\t\t\tparent[i]=j;",
+			"\t\t\t_size[j]+=_size[i];",
+			"\t\t}",
+			"\t\tif(rank[i]==rank[j])rank[i]++;",
+			"\t\treturn;",
+			"\t}",
+			"\tint count(){",
+			"\t\treturn cou;",
+			"\t}",
+			"\tint unitsize(const int &i){",
+			"\t\treturn _size[root(i)];",
+			"\t}",
+			"};",
+		],
+		"description": "Union-Find tree"
+	},
+	"divNum":{
+		"scope": "cpp",
+		"prefix": "@divNum",
+		"body": [
+			"struct divNum{",
+			"\tvector<vector<mint>> d;",
+			"\tint N, M;",
+			"\tdivNum(int n, int m, bool tof=true) : d(n + 1, vector<mint>(m + 1, 0)){",
+			"\t\tN = n;",
+			"\t\tM = m;",
+			"\t\tif (tof){",
+			"\t\t\trep(j, n + 1){",
+			"\t\t\t\td[j][0] = 1;",
+			"\t\t\t}rep(j, m){",
+			"\t\t\t\td[0][j + 1] = 0;",
+			"\t\t\t}",
+			"\t\t\tfor (int j = 1; j <= n; j++){",
+			"\t\t\t\tfor (int k = 1; k <= m; k++){",
+			"\t\t\t\t\tif (j > k)",
+			"\t\t\t\t\t\td[j][k] = d[j - 1][k];",
+			"\t\t\t\t\telse",
+			"\t\t\t\t\t\td[j][k] = d[j - 1][k] + d[j][k - j];",
+			"\t\t\t\t}",
+			"\t\t\t}",
+			"\t\t}else{",
+			"\t\t\td[0][0] = 1;",
+			"\t\t\trep(i, n){",
+			"\t\t\t\trep(j, m + 1){",
+			"\t\t\t\t\trep(k, m - j + 1){",
+			"\t\t\t\t\t\td[i + 1][j + k] = d[i + 1][j + k] + d[i][j];",
+			"\t\t\t\t\t}",
+			"\t\t\t\t}",
+			"\t\t\t}",
+			"\t\t}",
+			"\t}",
+			"\tmint operator()(int n, int m){",
+			"\t\tif (n < 0 || m < 0 || n > N || m > M)",
+			"\t\t\treturn 0;",
+			"\t\telse{",
+			"\t\t\treturn d[n][m];",
+			"\t\t}",
+			"\t}",
+			"};",
+		],
+		"description": "分割数table"
+	},
+	"strcmp2":{
+		"scope": "cpp",
+		"prefix": "@strcmp2",
+		"body": [
+			"//comparison s and t regardress of upper or lower::s>t=1,s<t=-1",
+			"int strcmp2(string s,string t){",
+			"\tint now=0;",
+			"\twhile(tolower(s[now])==tolower(s[now])){",
+			"\t\tif(s[now]=='\\0')return 0;",
+			"\t\tnow++;",
+			"\t}",
+			"\treturn tolower(s[now])>tolower(t[now])? 1:-1;",
+			"}"
+		],
+		"description": "文字の大小に関係なく小文字化して比較するスニペット"
+	},
+	"for":{
+		"scope": "cpp",
+		"prefix": "repp",
+		"body": [
+			"for(int $1 = $2;$1<=$3;$1++)"
+		],
+		"description": "forの省略"
+	},
+	"cout":{
+		"scope": "cpp",
+		"prefix": "co",
+		"body": [
+			"cout << $1 <<endl;"
+		],
+		"description": "改行付きの標準出力"
+	},
+	"cin":{
+		"scope": "cpp",
+		"prefix": "ci",
+		"body": [
+			"cin >> $1 ;"
+		],
+		"description": "標準入力"
+	}
+}
