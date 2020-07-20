@@ -1,4 +1,4 @@
-//https://atcoder.jp/contests/abc070/tasks/abc070_c
+//https://atcoder.jp/contests/agc001/tasks/agc001_b
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -155,29 +155,12 @@ common_type_t<M,N> mylcm(M a,N b){
 }
 
 const int N_MAX=100005;
-int n;
-vll a;
 
 void Main(){
     int x=0,y=INF10,z=1;
     //入力
-    cin>>n;
-    ll b;
-    rep(i,n){
-        cin>>b;
-        a.pb(b);
-    }
     //処理
-    if(n==1){
-        cout << a[0] <<endl;
-        return;
-    }
-    ll ans=mylcm(a[0],a[1]);
-    rep(i,n-2){
-        ans=mylcm(ans,a[i+2]);
-    }
     //出力
-    cout << ans <<endl;
 }
 
 int main(){
