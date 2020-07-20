@@ -139,9 +139,9 @@ bool maxin (T &a,T b){if(a<b){a=b;return 1;}return 0;}
 template<class T>
 bool minin (T &a,T b){if(a>b){a=b;return 1;}return 0;}
 template<class M,class N> 
-constexpr common_type_t<M,N> gcd(M a,N b){
+common_type_t<M,N> mygcd(M a,N b){
     a=abs(a);b=abs(b);
-    if(a < b) return gcd(b, a);
+    if(a < b) return mygcd(b, a);
     M r;
     while ((r=a%b)) {
         a = b;
@@ -150,8 +150,8 @@ constexpr common_type_t<M,N> gcd(M a,N b){
     return b;
 }
 template<class M,class N>
-constexpr common_type_t<M,N> lcm(M a,N b){
-    return a*b/gcd(a,b);
+common_type_t<M,N> mylcm(M a,N b){
+    return (a/mygcd(a,b))*b;
 }
 
 const int N_MAX=100005;

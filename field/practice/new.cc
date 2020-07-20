@@ -1,4 +1,4 @@
-//
+//https://atcoder.jp/contests/abc070/tasks/abc070_c
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -139,9 +139,9 @@ bool maxin (T &a,T b){if(a<b){a=b;return 1;}return 0;}
 template<class T>
 bool minin (T &a,T b){if(a>b){a=b;return 1;}return 0;}
 template<class M,class N> 
-constexpr common_type_t<M,N> gcd(M a,N b){
+common_type_t<M,N> mygcd(M a,N b){
     a=abs(a);b=abs(b);
-    if(a < b) return gcd(b, a);
+    if(a < b) return mygcd(b, a);
     M r;
     while ((r=a%b)) {
         a = b;
@@ -150,17 +150,34 @@ constexpr common_type_t<M,N> gcd(M a,N b){
     return b;
 }
 template<class M,class N>
-constexpr common_type_t<M,N> lcm(M a,N b){
-    return a*b/gcd(a,b);
+common_type_t<M,N> mylcm(M a,N b){
+    return (a/mygcd(a,b))*b;
 }
 
 const int N_MAX=100005;
+int n;
+vll a;
 
 void Main(){
     int x=0,y=INF10,z=1;
     //入力
+    cin>>n;
+    ll b;
+    rep(i,n){
+        cin>>b;
+        a.pb(b);
+    }
     //処理
+    if(n==1){
+        cout << a[0] <<endl;
+        return;
+    }
+    ll ans=mylcm(a[0],a[1]);
+    rep(i,n-2){
+        ans=mylcm(ans,a[i+2]);
+    }
     //出力
+    cout << ans <<endl;
 }
 
 int main(){

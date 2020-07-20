@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 #テンプレートを同期
 dir_name="$(cd $(dirname $0); pwd)"
 dir_name=${dir_name//scripts}
