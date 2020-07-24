@@ -155,12 +155,31 @@ common_type_t<M,N> mylcm(M a,N b){
 }
 
 const int N_MAX=100005;
+ll n,x;
+
 
 void Main(){
     int x=0,y=INF10,z=1;
     //入力
+    cin>>n>>x;
     //処理
+    bool tof=true;
+    ll res=0,a,b,c;
+
+    a=x;
+    b=n-x;
+    res=x;
+
+    if(a%b==0)res+=b;
+    while(a%b!=0){  
+        res+=2*b*((a+b-1)/b)-b;
+        c=a;
+        a=b;
+        b=c%b;
+    }
+    res+=2*b*(a/b-1)+b;
     //出力
+    cout << res <<endl;
 }
 
 int main(){
