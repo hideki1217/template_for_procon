@@ -53,10 +53,7 @@ int makeSnipett(ifstream &in,ofstream &out){
 }
 
 void Main(){
-    cout << "# where is code for snipett??" <<endl;
-    cin >> ifname;
-    cout << "# where so you want to save snipett?" <<endl;
-    cin >> ofname;
+    ofname=ifname+"_snipett";
 
     ifstream ifs(ifname);
     ofstream ofs(ofname);
@@ -92,6 +89,5 @@ void Main(){
 
 int main(int ARGV,char* ARGC[]){
     ifname=ARGC[1];
-    ofname=ARGC[2];
     Main();
 }
