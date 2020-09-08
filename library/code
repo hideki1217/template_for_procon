@@ -1,61 +1,32 @@
-struct FFT{
-    struct mycomplex{   
-        double real;
-        double imag;
-        mycomplex(double a=0.0,double b=0.0):real(a),imag(b){}
-        mycomplex operator-() const {return mycomplex(-real,-imag);}
-        mycomplex &operator+=(const mycomplex &a){real+=a.real;imag+=a.imag;return *this;}
-        mycomplex &operator-=(const mycomplex &a){real-=a.real;imag-=a.imag;return *this;}
-        mycomplex &operator*=(const mycomplex &a){double nr=real*a.real-imag*a.imag;double ni=real*a.imag+imag*a.real;real=nr;imag=ni;return *this;}
-        mycomplex &operator/=(const mycomplex &a){double nr=(real*a.real+imag*a.imag)/(a.real*a.real+a.imag*a.imag);double ni=(imag*a.real-real*a.imag)/(a.real*a.real+a.imag*a.imag);real=nr;imag=ni;return *this;}
-        mycomplex &operator*=(const double &a){real*=a;imag*=a;return *this;}
-        mycomplex &operator/=(const double &a){real/=a;imag/=a;return *this;}
-        mycomplex operator+(const mycomplex &a) const {return mycomplex(*this)+=a;}
-        mycomplex operator-(const mycomplex &a) const {return mycomplex(*this)-=a;}
-        mycomplex operator*(const mycomplex &a) const {return mycomplex(*this)*=a;}
-        mycomplex operator/(const mycomplex &a) const {return mycomplex(*this)/=a;}
-        mycomplex operator*(const double &a) const {return mycomplex(*this)*=a;}
-        mycomplex operator/(const double &a) const {return mycomplex(*this)/=a;}
-        mycomplex conj() const {return mycomplex(real,-imag);}
-        mycomplex polar(double r,double q) const {return mycomplex(r*cos(q),r*sin(q));}
-    };
-    
-    typedef mycomplex clx;
-
-    vector<clx> dft(vector<clx> f,int n,bool inverse=false){
-        if(n==1)return f;
-        vector<clx> a0,a1;
-        rep(i,n)i%2==0?a0.push_back(f[i]):a1.push_back(f[i]);
-        a0=dft(a0,n/2,inverse);
-        a1=dft(a1,n/2,inverse);
-        clx zeta(cos(2*pi/n),sin(2*pi/n));
-        if(inverse)zeta=zeta.conj();
-        clx x=clx(1);
-        rep(i,n){
-            f[i]=a0[i%(n/2)]+x*a1[i%(n/2)];
-            x*=zeta;
+struct PTable{
+    int n;
+    vector<int> table;
+    PTable(int n)n(n):{
+        calc();
+    }
+    void calc(){
+        table.resize(n+1,1);
+        for(int i=2;i<=n;i++){
+            if(table[i]!=1)continue;
+            for(int j=i;j<=n;j+=i){
+                table[j]=i;
+            }
         }
-        return f;
     }
-    vector<double> operator()(vector<double> a,vector<double> b){
-        int ma=a.size(),mb=b.size();
-        ll N=1;
-        for(N;N<=ma+mb+1;N*=2);
-        //0を詰める
-        vector<clx> aa(N,clx()),bb(N,clx());
-        for(int i=0;i<ma;i++)aa[i]=clx(a[i]);
-        for(int i=0;i<mb;i++)bb[i]=clx(b[i]);
-
-        aa=dft(aa,N);
-        bb=dft(bb,N);
-
-        vector<clx> res;
-        rep(i,N+1)res.push_back(aa[i]*bb[i]);
-
-        res=dft(res,N,true);
-
-        vector<double> ans;
-        rep(i,N+1)ans.push_back(res[i].real/N);
-        return ans;
+    //aの最大の素因数を返して、aを割る
+    int operator()(int &a){
+        int x=table[a];
+        a/=table[a];
+        return x;
     }
-};
+    //素因数分解::pfact(数字,いれもの,falseなら1はいれない)
+    vector<int> pfact(int a,vector<int> b,bool tof=true){
+        while(1){
+            if(table[a]==1)break;
+            b.push_back(table[a]);
+            a/=table[a];
+        }
+        if(tof)b.push_back(1);
+        return b;
+    }
+}

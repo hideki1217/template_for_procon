@@ -14,13 +14,17 @@ string body,name,prefix,scope;
 vector<string> reg;
 
 int makeSnipett(ifstream &in,ofstream &out){
+    out << "{" << endl;
+
     for(auto s:reg){
         out << s <<endl;
     }
+
     out << "\t\""+name+"\":{" << endl; 
     out << "\t\t\"scope\": \""+ scope + "\"," << endl;
     out << "\t\t\"prefix\": \""+ prefix + "\"," << endl;
     out << "\t\t\"body\": [" << endl;
+
     while(getline(in,body)){
         bool fixed=false;
         int cou=0;
@@ -51,18 +55,25 @@ int makeSnipett(ifstream &in,ofstream &out){
         //書き込み
         out<<body<<endl;
     }
+
     out << "\t\t]," <<endl;
     out << "\t}," <<endl;
+
     out << "}" <<endl;
     return 0;
 }
 
 void Main(){
-    fstream st(ofname,ios::in|ios::out);
+    ifstream st(ofname);
+    if(!st){
+        cerr<<"I failed to open output file"<<endl;
+        cerr<<"maybe there is no such file"<<endl;
+        cerr<<"so create file"<<endl;
+    }
     string line;
     smatch sm;
     while(getline(st,line)){
-        if(regex_search(line,sm,regex("^}")))break;
+        if(regex_search(line,sm,regex("^\\}"))||regex_search(line,sm,regex("^\\{")))continue;
         reg.push_back(line);
     }
     st.close();
@@ -70,10 +81,10 @@ void Main(){
     ifstream ifs(ifname);
     ofstream ofs(ofname);
     if(!ifs){
-        cerr<<"I failed to opne INPUT file"<<endl;
+        cerr<<"I failed to open INPUT file"<<endl;
         return;
     }else if(!ofs){
-        cerr<<"I failed to opne OUTPUT file"<<endl;
+        cerr<<"I failed to open OUTPUT file"<<endl;
         return;
     }else{
         cout<<"success to open both files"<<endl;

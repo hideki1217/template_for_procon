@@ -7,8 +7,11 @@
 		{
 			"type": "shell",
 			"label": "スニペット作成",
-            "command": "${workspaceFolder}/scripts/vsSnipettMaker.exe",
-            "args": ["${file}"],
+            "command": "${workspaceFolder}/scripts/vsSnippetMaker.exe",
+            "args": [
+                "${workspaceFolder}/library/code",
+                "${workspaceFolder}/.vscode/myLibrary.code-snippets"
+            ],
 			"group": "build",
 			"problemMatcher": [],
 		},
