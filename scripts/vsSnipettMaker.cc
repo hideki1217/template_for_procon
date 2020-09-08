@@ -2,6 +2,7 @@
 #include<iostream>
 #include<string>
 #include<fstream>
+#include<regex>
 
 using namespace std;
 
@@ -10,8 +11,12 @@ using namespace std;
 int intend=4;
 string ifname,ofname;
 string body,name,prefix,scope;
+vector<string> reg;
 
 int makeSnipett(ifstream &in,ofstream &out){
+    for(auto s:reg){
+        out << s <<endl;
+    }
     out << "\t\""+name+"\":{" << endl; 
     out << "\t\t\"scope\": \""+ scope + "\"," << endl;
     out << "\t\t\"prefix\": \""+ prefix + "\"," << endl;
@@ -48,12 +53,19 @@ int makeSnipett(ifstream &in,ofstream &out){
     }
     out << "\t\t]," <<endl;
     out << "\t}," <<endl;
-
+    out << "}" <<endl;
     return 0;
 }
 
 void Main(){
-    ofname=ifname+"_snipett";
+    fstream st(ofname,ios::in|ios::out);
+    string line;
+    smatch sm;
+    while(getline(st,line)){
+        if(regex_search(line,sm,regex("^}")))break;
+        reg.push_back(line);
+    }
+    st.close();
 
     ifstream ifs(ifname);
     ofstream ofs(ofname);
@@ -85,9 +97,11 @@ void Main(){
     cout << "making snipett ..." <<endl;
     
     if(makeSnipett(ifs,ofs)==0)cout << "success!!" <<endl;
+    else cout << "failed..." <<endl;
 }
 
 int main(int ARGV,char* ARGC[]){
     ifname=ARGC[1];
+    ofname=ARGC[2];
     Main();
 }
