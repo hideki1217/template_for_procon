@@ -64,32 +64,6 @@ int makeSnipett(ifstream &in,ofstream &out){
 }
 
 void Main(){
-    ifstream st(ofname);
-    if(!st){
-        cerr<<"I failed to open output file"<<endl;
-        cerr<<"maybe there is no such file"<<endl;
-        cerr<<"so create file"<<endl;
-    }
-    string line;
-    smatch sm;
-    while(getline(st,line)){
-        if(regex_search(line,sm,regex("^\\}"))||regex_search(line,sm,regex("^\\{")))continue;
-        reg.push_back(line);
-    }
-    st.close();
-
-    ifstream ifs(ifname);
-    ofstream ofs(ofname);
-    if(!ifs){
-        cerr<<"I failed to open INPUT file"<<endl;
-        return;
-    }else if(!ofs){
-        cerr<<"I failed to open OUTPUT file"<<endl;
-        return;
-    }else{
-        cout<<"success to open both files"<<endl;
-    }
-    //処理
     string ans;
     do{
         cout << "# What is snipett name ?" <<endl;
@@ -106,9 +80,39 @@ void Main(){
     }while(ans[0]=='n'||ans[0]=='N');
 
     cout << "making snipett ..." <<endl;
+
+    ifstream st(ofname);
+    if(!st){
+        cerr<<"I failed to open output file"<<endl;
+        cerr<<"maybe there is no such file"<<endl;
+        cerr<<"so create file"<<endl;
+    }
+    string line;
+    smatch sm;
+    while(getline(st,line)){
+        if(regex_match(line,sm,regex(".*("+name+"|"+prefix+").*"))){
+            cout << "***same name or prefix exist***" <<endl;
+            return;
+        }
+        if(regex_search(line,sm,regex(R"(^\})"))||regex_search(line,sm,regex(R"(^\{)")))continue;
+        reg.push_back(line);
+    }
+    st.close();
+
+    ifstream ifs(ifname);
+    ofstream ofs(ofname);
+    if(!ifs){
+        cerr<<"***failed to open INPUT file***"<<endl;
+        return;
+    }else if(!ofs){
+        cerr<<"***failed to open OUTPUT file***"<<endl;
+        return;
+    }else{
+        cout<<"success to open both files"<<endl;
+    }
     
     if(makeSnipett(ifs,ofs)==0)cout << "success!!" <<endl;
-    else cout << "failed..." <<endl;
+    else cout << "***failed...***" <<endl;
 }
 
 int main(int ARGV,char* ARGC[]){
