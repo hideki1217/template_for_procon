@@ -26,8 +26,9 @@
 		//syncronize template for programing competition
 		{
 			"type": "shell",
-			"label": "Syncronize template folder with my \"template.cc\" ",
-			"command": "${workspaceFolder}/scripts/syncronize.sh",
+			"label": "Make templates for contest ",
+            "command": "${workspaceFolder}/scripts/syncronize.sh",
+            "args": ["${input:contest_name}"],
 			"group": "build",
 			"problemMatcher": []
 		},
@@ -116,5 +117,13 @@
             ],
             "problemMatcher": []
         },
+    ],
+    "inputs": [
+        {
+            "id": "contest_name",
+            "description": "コンテストの名前を入力",
+            "default": "abc",
+            "type": "promptString"
+        }
     ]
 }
