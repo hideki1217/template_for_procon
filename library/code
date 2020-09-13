@@ -1,44 +1,18 @@
-struct BITree{
-    int n;
-    vector<int> tree;
-    BITree(int n):n(n){
-        init();
-    }
-    void init(){
-        tree.resize(n+1,0);
-    }
-    //結合法則が成り立つとき有効
-    void add(int x,int a){
-        if(x<=0)return;
-        for( x; x <= n; x += x&-x ){
-            tree[x]+=a;
+template<class A>
+pair<A,A> euclid(A a,A b,A &d){
+    if(a==0)return {0,d/b};
+    else if(b==0)return {d/a,0};
+    else{
+        if(a>=b){
+            A x=a/b;
+            a=a%b;
+            pair<A,A> res=euclid(a,b,d);
+            return {res.first,res.second-x*res.first};
+        }else{
+            A x=b/a;
+            b=b%a;
+            pair<A,A> res=euclid(a,b,d);
+            return {res.first-x*res.second,res.second};
         }
-        return;
     }
-    //結合法則が成り立つとき有効
-    int getsum(int x){
-        if(x<=0)return 0;
-        int res=0;
-        for( x; x > 0; x -= x&-x ){
-            res+=tree[x];
-        }
-        return res;
-    }
-    //これは逆元が存在して引き算ができるときに有効
-    int getsum(int x,int y){
-        if(y<x)swap(x,y);
-        return getsum(y)-getsum(x-1);
-    }
-    //各元が正であり、結合法則が成り立つときに有効
-    int lower_bound(int a){
-        int x=0,k=1;
-        while(2*k<=n)k*=2;
-        for( k; k>0; k/=2){
-            if( x+k<=n && tree[x+k]<a ){
-                a-=tree[x+k];
-                x+=k;
-            }
-        }
-        return x+1;
-    }
-};
+}

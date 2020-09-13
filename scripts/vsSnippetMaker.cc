@@ -10,7 +10,7 @@ using namespace std;
 
 int intend=4;
 string ifname,ofname;
-string body,name,prefix,scope;
+string body,name,prefix,scope,description;
 vector<string> reg;
 
 int makeSnipett(ifstream &in,ofstream &out){
@@ -57,6 +57,7 @@ int makeSnipett(ifstream &in,ofstream &out){
     }
 
     out << "\t\t]," <<endl;
+    out <<"\t\t\"descriprion:\""+description <<endl;
     out << "\t}," <<endl;
 
     out << "}" <<endl;
@@ -72,8 +73,14 @@ void Main(){
         cin >> scope;
         cout << "# What is prefix ? " <<endl;
         cin >> prefix;
+        cout << "# Write any description ?? Y/n " <<endl;
+        cin >> ans;
+        if(ans[0]=='Y'||ans[0]=='y'){
+            cout << "## write your description below" <<endl;
+            cin >> description;
+        } 
         cout << "==============" <<endl;
-        cout << "  name:"+name+"\n  scope:"+scope+"\n  prefix:"+prefix <<endl;
+        cout << "  name:"+name+"\n  scope:"+scope+"\n  prefix:"+prefix +"\n description:\""+ description +"\""<<endl;
         cout << "==============" <<endl;
         cout << "# Is this OK ?? (Y/n)\n";
         cin>>ans;

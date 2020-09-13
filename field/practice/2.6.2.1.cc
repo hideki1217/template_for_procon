@@ -1,4 +1,4 @@
-//
+//http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_E&lang=ja
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -156,11 +156,52 @@ common_type_t<M,N> mylcm(M a,N b){
 
 const int N_MAX=100005;
 
+template<class A>
+pair<A,A> euclid(A a,A b,A &d){
+    if(a==0)return {0,d/b};
+    else if(b==0)return {d/a,0};
+    else{
+        if(a>=b){
+            A x=a/b;
+            a=a%b;
+            pair<A,A> res=euclid(a,b,d);
+            return {res.first,res.second-x*res.first};
+        }else{
+            A x=b/a;
+            b=b%a;
+            pair<A,A> res=euclid(a,b,d);
+            return {res.first-x*res.second,res.second};
+        }
+    }
+}
+
+ll a,b;
+
 void Main(){
     int x=0,y=INF10,z=1;
     //入力
+    cin>>a>>b;
     //処理
+    ll d;
+    d=mygcd(a,b);
+    pll res=euclid(a,b,d);
+    a/=d,b/=d;
+    while(1){
+        if(abs(res.first-a)+abs(res.second+b)<abs(res.first)+abs(res.second))
+            res.first-=a,res.second+=b;
+        else if(abs(res.first-a)+abs(res.second+b)==abs(res.first)+abs(res.second)&&res.first-a<=res.second+b)
+            res.first-=a,res.second+=b;
+        else break;
+    }
+    while(1){
+        if(abs(res.first+a)+abs(res.second-b)<abs(res.first)+abs(res.second))
+            res.first+=a,res.second-=b;
+        else if(abs(res.first+a)+abs(res.second-b)==abs(res.first)+abs(res.second)&&res.first+a<=res.second-b)
+            res.first+=a,res.second-=b;
+        else break;
+    }
     //出力
+    cout << res.first <<" "<< res.second <<endl;
 }
 
 int main(){

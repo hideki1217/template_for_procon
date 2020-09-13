@@ -18,7 +18,7 @@
         //make new c++ file for programing competition
 		{
 			"type": "shell",
-			"label": "\\practice make new one c++ file with template",
+			"label": "Make new c++ template file",
 			"command": "${workspaceFolder}/scripts/new_practice_file.sh",
 			"group": "build",
 			"problemMatcher": [],
@@ -26,7 +26,7 @@
 		//syncronize template for programing competition
 		{
 			"type": "shell",
-			"label": "テンプレートを同期（競プロ用）",
+			"label": "Syncronize template folder with my \"template.cc\" ",
 			"command": "${workspaceFolder}/scripts/syncronize.sh",
 			"group": "build",
 			"problemMatcher": []
@@ -68,6 +68,19 @@
                 "run",
                 "${workspaceFolder}/scripts/graph_visualization.py",
                 "${file}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "build c++ to same directory with same name ",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.exe",
+                "-lstdc++",
+                "-g"
             ],
             "problemMatcher": []
         },
