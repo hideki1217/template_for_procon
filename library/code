@@ -1,18 +1,40 @@
-template<class A>
-pair<A,A> euclid(A a,A b,A &d){
-    if(a==0)return {0,d/b};
-    else if(b==0)return {d/a,0};
-    else{
-        if(a>=b){
-            A x=a/b;
-            a=a%b;
-            pair<A,A> res=euclid(a,b,d);
-            return {res.first,res.second-x*res.first};
-        }else{
-            A x=b/a;
-            b=b%a;
-            pair<A,A> res=euclid(a,b,d);
-            return {res.first-x*res.second,res.second};
+struct PTable{
+    int n;
+    vector<int> table;
+    PTable(int n):n(n){
+        calc();
+    }
+    void calc(){
+        table.resize(n+1,1);
+        for(int i=2;i<=n;i++){
+            if(table[i]!=1)continue;
+            for(int j=i;j<=n;j+=i){
+                table[j]=i;
+            }
         }
     }
-}
+    //aの最大の素因数を返して、aを割る
+    int operator()(int &a){
+        int x=table[a];
+        a/=table[a];
+        return x;
+    }
+    //素因数分解::pfact(数字,いれもの)->{{素因数,個数}}
+    vector<pair<int,int>> pfact(int a,vector<pair<int,int>> b){
+        int mem=0,cou=0;
+        while(1){
+            if(table[a]==1){
+                b.push_back({mem,cou});
+                break;
+            }
+            if(mem==table[a])cou++;
+            else{
+                if(cou!=0)b.push_back({mem,cou});
+                mem=table[a];
+                cou=1;
+            }
+            a/=table[a];
+        }
+        return b;
+    }
+};

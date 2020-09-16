@@ -1,4 +1,4 @@
-//
+//https://atcoder.jp/contests/abc110/tasks/abc110_d
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -161,14 +161,75 @@ template<class M,class N>
 common_type_t<M,N> mylcm(M a,N b){
     return (a/mygcd(a,b))*b;
 }
-
-const int N_MAX=100005;
+struct PTable{
+    int n;
+    vector<int> table;
+    PTable(int n):n(n){
+        calc();
+    }
+    void calc(){
+        table.resize(n+1,1);
+        for(int i=2;i<=n;i++){
+            if(table[i]!=1)continue;
+            for(int j=i;j<=n;j+=i){
+                table[j]=i;
+            }
+        }
+    }
+    //aの最大の素因数を返して、aを割る
+    int operator()(int &a){
+        int x=table[a];
+        a/=table[a];
+        return x;
+    }
+    //素因数分解::pfact(数字,いれもの)->{{素因数,個数}}
+    vector<pair<int,int>> pfact(int a,vector<pair<int,int>> b){
+        int mem=0,cou=0;
+        while(1){
+            if(table[a]==1){
+                b.push_back({mem,cou});
+                break;
+            }
+            if(mem==table[a])cou++;
+            else{
+                if(cou!=0)b.push_back({mem,cou});
+                mem=table[a];
+                cou=1;
+            }
+            a/=table[a];
+        }
+        return b;
+    }
+};
+const int N_MAX=110005;
+int n,m;
+mint ans=1;
 
 void Main(){
     int x=0,y=INF10,z=1;
     //入力
+    cin>>n>>m;
     //処理
+    combination c(N_MAX);
+    vector<pint> mem;
+    x=sqrt(m)+1;
+    rep2(i,2,x){
+        if(m%i==0){
+            int cou=0;
+            do{
+                m/=i,cou++;
+            }while(m%i==0);
+            mem.pb({i,cou});
+        }
+    }
+    if(m!=1)mem.pb({m,1});
+    arep(s,mem){
+        debug(s.first);
+        debug(s.second);
+        ans*=c(s.second+n-1,n-1);
+    }
     //出力
+    cout << ans <<endl;
 }
 
 int main(){
