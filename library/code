@@ -37,4 +37,10 @@ struct PTable{
         }
         return b;
     }
+    //euler(a)を返す
+    int euler(int a){
+        int res=0;
+        for(int i=2;i<a;i++)if(table[i]==i)res++;
+        return res;
+    }
 };

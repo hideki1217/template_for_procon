@@ -321,7 +321,14 @@
 			"\t\t}",
 			"\t\treturn b;",
 			"\t}",
+			"\t//euler(a)を返す",
+			"\tint euler(int a){",
+			"\t\tint res=0;",
+			"\t\tfor(int i=2;i<a;i++)if(table[i]==i)res++;",
+			"\t\treturn res;",
+			"\t}",
 			"};",
 		],
+		"description":"primetableをつくって、高速で素因数分解系の操作ができる"
 	},
 }

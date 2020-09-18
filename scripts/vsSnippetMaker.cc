@@ -57,7 +57,7 @@ int makeSnipett(ifstream &in,ofstream &out){
     }
 
     out << "\t\t]," <<endl;
-    out <<"\t\t\"descriprion:\""+description <<endl;
+    out <<"\t\t\"description\":\""+description+"\"" <<endl;
     out << "\t}," <<endl;
 
     out << "}" <<endl;
