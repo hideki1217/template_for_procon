@@ -297,6 +297,8 @@
 			"\t\t\t}",
 			"\t\t}",
 			"\t}",
+			"\t//aが素数か判定",
+			"\tint isPrime(int a) { if(a>=0)return a==table[a]&&a!=1;else return 0; }",
 			"\t//aの最大の素因数を返して、aを割る",
 			"\tint operator()(int &a){",
 			"\t\tint x=table[a];",
@@ -329,6 +331,6 @@
 			"\t}",
 			"};",
 		],
-		"description":"primetableをつくって、高速で素因数分解系の操作ができる"
+		"description":"Library for Prime number"
 	},
 }

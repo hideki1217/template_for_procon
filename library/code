@@ -13,6 +13,8 @@ struct PTable{
             }
         }
     }
+    //aが素数か判定
+    int isPrime(int a) { if(a>=0)return a==table[a]&&a!=1;else return 0; }
     //aの最大の素因数を返して、aを割る
     int operator()(int &a){
         int x=table[a];
