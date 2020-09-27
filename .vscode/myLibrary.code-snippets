@@ -334,8 +334,8 @@
 		"description":"Library for Prime number"
 	},
 	"op":{
-		"scope": "cpp",
-		"prefix": "ko",
+		"scope": "op",
+		"prefix": "op",
 		"body": [
 			"struct PTable{",
 			"\tint n;",

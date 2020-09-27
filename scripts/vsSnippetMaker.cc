@@ -4,7 +4,7 @@
 #include<fstream>
 #include<regex>
 #include<stdio.h>
-#include <unistd.h>
+#include<unistd.h>
 
 using namespace std;
 
@@ -133,8 +133,17 @@ void Main(){
         cout << "# Is this OK ?? (Y/n)\n";
         cin>>ans;
     }while(ans[0]=='n'||ans[0]=='N');
-    sleep(1);
-    printf("making snipett...\n");
+    
+    rep(i,3){
+        /*printf("making snipett   \r");
+        usleep(100000);
+        printf("making snipett.  \r");
+        usleep(100000);
+        printf("making snipett.. \r");
+        usleep(100000);*/
+        printf("making snipett...\r");
+        usleep(100000);
+    }printf("\n");
 
     if(getLibrarySourceCode())return;
 
