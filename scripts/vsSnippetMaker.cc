@@ -10,10 +10,76 @@ using namespace std;
 
 #define rep(i, n) for (int i = 0; i < (int)(n); i++)
 
-int intend=4;
+int Intend=4;
 string ifname,ofname;
 string body,name,prefix,scope,description;
 vector<string> reg_first,reg_second;
+
+string changeFormat(string s,int intend){
+    bool fixed=false;
+    int cou=0;
+    //空白文字の\tへの置き換え
+    for(cou;s[cou]==' ';cou++);
+    string a="";
+    rep(i,(cou+intend-1)/intend)a+="\\t";
+    s.replace(0,cou,a);
+    cou=a.size();
+    //その他の文字の置き換え
+    while(s[cou]!='\0'){
+        if(fixed){
+            fixed=false;
+            cou++;
+            continue;
+        }
+        char ch=s[cou];
+        if(ch=='\"'){
+            s.insert(cou,"\\");
+            fixed=true;
+        }else if(ch=='\\'){
+            s.insert(cou,"\\");
+            fixed=true;
+        }
+        cou++;
+    }
+    return s;
+}
+
+int getLibrarySourceCode(){
+    ifstream st(ofname);
+    if(!st){
+        cout<<"I failed to open output file"<<endl;
+        cout<<"maybe there is no such file"<<endl;
+        cout<<"so create file"<<endl;
+        ofstream(ofname);
+    }
+    string line,ans;
+    smatch sm;
+    while(getline(st,line)){
+        if(regex_match(line,sm,regex("\t\""+name+"\":\\{"))){
+            cout << "***same name exist***" <<endl;
+            sleep(1);
+            cout << "# Do you want to OVERWRITE ?? (Y/n)" <<endl;
+            cin >> ans;
+            if(ans[0] != 'Y'&& ans[0] != 'y'){cout << "Stop.." <<endl;return 1;}
+            while(getline(st,line)){
+                if(regex_match(line,sm,regex(R"(\t\},.)")))break;
+            }
+            break;
+        }else if(regex_match(line,sm,regex("\t\t\"prefix\":.*\""+prefix+"\".*"))){
+            cout << "***same prefix exist***" <<endl;
+            cout << "Stop..." <<endl; return 1;
+        }
+        if(regex_search(line,sm,regex(R"(^\})"))||regex_search(line,sm,regex(R"(^\{)")))continue;
+        reg_first.push_back(line);
+    }
+    while(getline(st,line)){
+        if(regex_search(line,sm,regex(R"(^\})"))||regex_search(line,sm,regex(R"(^\{)")))continue;
+        reg_second.push_back(line);
+    }
+    st.close();
+    return 0;
+}
+
 
 int makeSnipett(ifstream &in,ofstream &out){
     out << "{" << endl;
@@ -28,31 +94,7 @@ int makeSnipett(ifstream &in,ofstream &out){
     out << "\t\t\"body\": [" << endl;
 
     while(getline(in,body)){
-        bool fixed=false;
-        int cou=0;
-        //空白文字の\tへの置き換え
-        for(cou;body[cou]==' ';cou++);
-        string a="";
-        rep(i,(cou+intend-1)/intend)a+="\\t";
-        body.replace(0,cou,a);
-        cou=a.size();
-        //その他の文字の置き換え
-        while(body[cou]!='\0'){
-            if(fixed){
-                fixed=false;
-                cou++;
-                continue;
-            }
-            char s=body[cou];
-            if(s=='\"'){
-                body.insert(cou,"\\");
-                fixed=true;
-            }else if(s=='\\'){
-                body.insert(cou,"\\");
-                fixed=true;
-            }
-            cou++;
-        }
+        body=changeFormat(body,Intend);
         body="\t\t\t\""+body+"\",";
         //書き込み
         out<<body<<endl;
@@ -91,46 +133,10 @@ void Main(){
         cout << "# Is this OK ?? (Y/n)\n";
         cin>>ans;
     }while(ans[0]=='n'||ans[0]=='N');
+    sleep(1);
+    printf("making snipett...\n");
 
-    /*printf("making snipett  ");
-    sleep(1);
-    printf("making snipett.  ");
-    sleep(1);
-    printf("making snipett.. ");*/
-    sleep(1);
-    printf("making snipett...");
-
-    ifstream st(ofname);
-    if(!st){
-        cout<<"I failed to open output file"<<endl;
-        cout<<"maybe there is no such file"<<endl;
-        cout<<"so create file"<<endl;
-    }
-    string line;
-    smatch sm;
-    while(getline(st,line)){
-        if(regex_match(line,sm,regex("\t\""+name+"\":\\{"))){
-            cout << "***same name exist***" <<endl;
-            sleep(1);
-            cout << "# Do you want to OVERWRITE ?? (Y/n)" <<endl;
-            cin >> ans;
-            if(ans[0] != 'Y'&& ans[0] != 'y'){cout << "Stop.." <<endl;return;}
-            while(getline(st,line)){
-                if(regex_match(line,sm,regex(R"(\t\},.)")))break;
-            }
-            break;
-        }else if(regex_match(line,sm,regex("\t\t\"prefix\":.*\""+prefix+"\".*"))){
-            cout << "***same prefix exist***" <<endl;
-            cout << "Stop..." <<endl; return;
-        }
-        if(regex_search(line,sm,regex(R"(^\})"))||regex_search(line,sm,regex(R"(^\{)")))continue;
-        reg_first.push_back(line);
-    }
-    while(getline(st,line)){
-        if(regex_search(line,sm,regex(R"(^\})"))||regex_search(line,sm,regex(R"(^\{)")))continue;
-        reg_second.push_back(line);
-    }
-    st.close();
+    if(getLibrarySourceCode())return;
 
     ifstream ifs(ifname);
     ofstream ofs(ofname);
