@@ -46,24 +46,19 @@ typedef vector<edge> edges;
 //a+b-1/bとすればよし
 
 //2進数表示したときの最高桁(O(log n))
-int bi_max(long n){
-    int m = 0;
-    for (m; (1 << m) <= n; m++);
-    m = m - 1;
-    return m;
-}
+template<class M>
+M bi_max(M n){ M m = 0; for (m; (1 << m) <= n; m++); return m-1; }
 //bi_eに二進数表示したやつを代入(O(log^2 n))
 //bitset<N> a(n)でnの二進数表示が得られて、a[i]=0or1でi番目のfragが立ってるかわかる
 //x^n mod m (nが負の時は０)(O(log n))
-long myPow(long x, long n, long m=mod){
-    if (n < 0)
-        return 0;
-    if (n == 0)
-        return 1;
-    if (n % 2 == 0)
-        return myPow(x * x % m, n / 2, m);
-    else
-        return x * myPow(x, n - 1, m) % m;
+template<class M,class N,class L>
+common_type_t<M,N,L> myPow(M a,N b,L m=mod){
+    common_type_t<M,N,L> res=1;
+    while(b!=0){
+        if(b & 1)(res*=a)%=m;
+        b>>=1;
+        (a*=a)%=m;
+    }return res%m;
 }
 // auto mod int
 // https://youtu.be/L8grWxBlIZ4?t=9858
