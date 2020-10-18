@@ -111,6 +111,7 @@ struct mint{
 };
 istream &operator>>(istream &is, const mint &a) { return is >> a.x; }
 ostream &operator<<(ostream &os, const mint &a) { return os << a.x; }
+typedef vector<mint> vmint;
 // combination mod prime
 // https://www.youtube.com/watch?v=8uowVvQ_-Mo&feature=youtu.be&t=1619
 struct combination{

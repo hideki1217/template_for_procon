@@ -1,48 +1,79 @@
-struct PTable{
-    int n;
-    vector<int> table;
-    PTable(int n):n(n){
-        calc();
-    }
-    void calc(){
-        table.resize(n+1,1);
-        for(int i=2;i<=n;i++){
-            if(table[i]!=1)continue;
-            for(int j=i;j<=n;j+=i){
-                table[j]=i;
-            }
-        }
-    }
-    //aが素数か判定
-    int isPrime(int a) { if(a>=0)return a==table[a]&&a!=1;else return 0; }
-    //aの最大の素因数を返して、aを割る
-    int operator()(int &a){
-        int x=table[a];
-        a/=table[a];
-        return x;
-    }
-    //素因数分解::pfact(数字,いれもの)->{{素因数,個数}}
-    vector<pair<int,int>> pfact(int a,vector<pair<int,int>> b){
-        int mem=0,cou=0;
-        while(1){
-            if(table[a]==1){
-                b.push_back({mem,cou});
-                break;
-            }
-            if(mem==table[a])cou++;
-            else{
-                if(cou!=0)b.push_back({mem,cou});
-                mem=table[a];
-                cou=1;
-            }
-            a/=table[a];
-        }
-        return b;
-    }
-    //euler(a)を返す
-    int euler(int a){
-        int res=0;
-        for(int i=2;i<a;i++)if(table[i]==i)res++;
-        return res;
-    }
-};
+\documentclass{jsarticle}
+%エンコード
+\usepackage[utf8]{inputenc}
+%枠を入れるため
+\usepackage{ascmac}
+%数式用
+\usepackage{amssymb,amsmath,amsfonts}
+%ベクトル表記
+\usepackage{bm}
+%英語のフォントをTimes調に
+\usepackage{txfonts}
+%ソースコードを表記
+\usepackage{listings,jlisting}
+%色を指定
+\usepackage{color}
+%画像を挿入
+\usepackage[dvipdfmx]{graphicx}子
+%画像挿入の場所指定子
+\usepackage{here}
+
+\lstset{
+    language=$1,
+    basicstyle={\ttfamily},
+    identifierstyle={\small},
+    keywordstyle={\small\bfseries},
+    ndkeywordstyle={\small},
+    stringstyle={\small\ttfamily},
+    backgroundcolor={\color[gray]{.90}},
+    frame={tb},
+    breaklines=true,
+    columns=[l]{fullflexible},
+    numbers=left,
+    xrightmargin=0zw,
+    xleftmargin=3zw,
+    numberstyle={\scriptsize},
+    stepnumber=1,
+    numbersep=1zw,
+    lineskip=-0.5ex
+}
+
+
+\makeatletter
+\renewcommand{\theequation}{%
+\thesection.\arabic{equation}}
+\@addtoreset{equation}{section}
+\def\thesis#1{\def\@thesis{#1}}
+\def\id#1{\def\@id{#1}}
+\def\@maketitle{
+\begin{center}
+    {\huge \@thesis \par}
+    \vspace{10mm}
+    {\LARGE\bf\@title\par}
+    \vspace{10mm}
+    {\Large\@date\par}
+    \vspace{20mm}
+    {\Large 学籍番号：\@id\par}
+    \vspace{5mm}
+    {\large\@author}
+\end{center}
+\par\vskip 1.5em
+}
+\makeatother
+
+\thesis{$2}
+\title{$3}
+\author{$4} 
+\id{$5}
+\date{\today}
+
+\begin{document}
+\maketitle
+\newpage  
+\tableofcontents
+\clearpage
+
+
+\begin{thebibliography}{9}
+\end{thebibliography}
+\end{document}
