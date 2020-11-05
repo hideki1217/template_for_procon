@@ -1,0 +1,58 @@
+{
+	"input_line int(single)":{
+		"scope": "python",
+		"prefix":"input",
+		"body":["int(input())"],
+		"description":"input int(single)",
+	},
+	"input_line int(multiple)":{
+		"scope": "python",
+		"prefix":"input",
+		"body":["map(int,input().split())"],
+		"description":"input int(multiple)",
+	},
+	"input_line list(int)":{
+		"scope": "Python",
+		"prefix":"input",
+		"body":["list(map(int,input().split()))"],
+		"description":"input list(int)",
+	},
+	"input_line list(str)":{
+		"scope": "python",
+		"prefix":"input",
+		"body":["input().split()"],
+		"description":"input list(int)",
+	},
+	"input_line tuple(int)":{
+		"scope": "python",
+		"prefix":"input",
+		"body":["tuple(map(int,input().split()))"],
+		"description":"input tuple(int)",
+	},
+	"input_lines list(single_int)":{
+		"scope": "python",
+		"prefix":"input",
+		"body":["[int(input()) for _ in range($1)]"],
+		"description":"input_lines list(single_int)",
+	},
+	"input_lines list(multiple_int)":{
+		"scope": "python",
+		"prefix":"input",
+		"body":["[list(map(int,input().split())) for _ in range($1)]"],
+		"description":"input_lines list(multiple_int)",
+	},
+	"input_lines list(single_str)":{
+		"scope": "python",
+		"prefix":"input",
+		"body":["[input() for _ in range($1)]"],
+		"description":"input_lines list(single_int)",
+	},
+	"input_lines list(multiple_str)":{
+		"scope": "python",
+		"prefix":"input",
+		"body":["[input().split() for _ in range($1)]"],
+		"description":"input_lines list(multiple_int)",
+	},
+
+
+}
