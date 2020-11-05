@@ -1,0 +1,79 @@
+\documentclass{jsarticle}
+%エンコード
+\usepackage[utf8]{inputenc}
+%枠を入れるため
+\usepackage{ascmac}
+%数式用
+\usepackage{amssymb,amsmath,amsfonts}
+%ベクトル表記
+\usepackage{bm}
+%英語のフォントをTimes調に
+\usepackage{txfonts}
+%ソースコードを表記
+\usepackage{listings,jlisting}
+%色を指定
+\usepackage{color}
+%画像を挿入
+\usepackage[dvipdfmx]{graphicx}子
+%画像挿入の場所指定子
+\usepackage{here}
+
+\lstset{
+    language=$1,
+    basicstyle={\ttfamily},
+    identifierstyle={\small},
+    keywordstyle={\small\bfseries},
+    ndkeywordstyle={\small},
+    stringstyle={\small\ttfamily},
+    backgroundcolor={\color[gray]{.90}},
+    frame={tb},
+    breaklines=true,
+    columns=[l]{fullflexible},
+    numbers=left,
+    xrightmargin=0zw,
+    xleftmargin=3zw,
+    numberstyle={\scriptsize},
+    stepnumber=1,
+    numbersep=1zw,
+    lineskip=-0.5ex
+}
+
+
+\makeatletter
+\renewcommand{\theequation}{%
+\thesection.\arabic{equation}}
+\@addtoreset{equation}{section}
+\def\thesis#1{\def\@thesis{#1}}
+\def\id#1{\def\@id{#1}}
+\def\@maketitle{
+\begin{center}
+    {\huge \@thesis \par}
+    \vspace{10mm}
+    {\LARGE\bf\@title\par}
+    \vspace{10mm}
+    {\Large\@date\par}
+    \vspace{20mm}
+    {\Large 学籍番号：\@id\par}
+    \vspace{5mm}
+    {\large\@author}
+\end{center}
+\par\vskip 1.5em
+}
+\makeatother
+
+\thesis{$2}
+\title{$3}
+\author{$4} 
+\id{$5}
+\date{\today}
+
+\begin{document}
+\maketitle
+\newpage  
+\tableofcontents
+\clearpage
+
+
+\begin{thebibliography}{9}
+\end{thebibliography}
+\end{document}

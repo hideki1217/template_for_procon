@@ -1,0 +1,129 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        //make snipett
+		{
+			"type": "shell",
+			"label": "スニペット作成",
+            "command": "${workspaceFolder}/scripts/vsSnippetMaker.exe",
+            "args": [
+                "${workspaceFolder}/library/code",
+                "${workspaceFolder}/.vscode/myLibrary.code-snippets"
+            ],
+			"group": "build",
+			"problemMatcher": [],
+		},
+        //make new c++ file for programing competition
+		{
+			"type": "shell",
+			"label": "Make new c++ template file",
+			"command": "${workspaceFolder}/scripts/new_practice_file.sh",
+			"group": "build",
+			"problemMatcher": [],
+		},
+		//syncronize template for programing competition
+		{
+			"type": "shell",
+			"label": "Make templates for contest ",
+            "command": "${workspaceFolder}/scripts/syncronize.sh",
+            "args": ["${input:contest_name}"],
+			"group": "build",
+			"problemMatcher": []
+		},
+        {
+            "label": "oj_download & test",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/scripts/oj_test.py",
+                "${file}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+        },
+        {
+            "label": "oj_submit",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/scripts/oj_submit.py",
+                "${file}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label":"clean tmp folder",
+            "type":"shell",
+            "command":"${workspaceFolder}/scripts/clean_tmp.sh"
+        },
+        {
+            "label": "graph viewer",
+            "type": "shell",
+            "command": "streamlit",
+            "args": [
+                "run",
+                "${workspaceFolder}/scripts/graph_visualization.py",
+                "${file}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "build c++ to same directory with same name ",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.exe",
+                "-lstdc++",
+                "-g"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "cpp runner",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "${file}",
+                "-o",
+                "${workspaceFolder}/tmp/a.out",
+                "-lstdc++",
+                "-g",
+                "&&",
+                "${workspaceFolder}/tmp/a.out",
+                "&&",
+                "rm",
+                "-f",
+                "${workspaceFolder}/tmp/a.out",
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "cpp build",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "${file}",
+                "-o",
+                "${workspaceFolder}/tmp/a.out",
+                "-lstdc++",
+                "-g",
+            ],
+            "problemMatcher": []
+        },
+    ],
+    "inputs": [
+        {
+            "id": "contest_name",
+            "description": "コンテストの名前を入力",
+            "default": "abc",
+            "type": "promptString"
+        }
+    ]
+}
